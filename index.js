@@ -1,22 +1,10 @@
-function minStack() {
-  this.stack = [];
-  this.minStack = [];
+function coinChange(coins, amount) {
+  const dp = new Array(amount + 1).fill(Infinity);
+  dp[0] = 0;
+  for (const coin of coins) {
+    for (let i = coin; i <= amount; i++) {
+      dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount];
 }
-minStack.prototype.push = function (x) {
-  this.stack.push(x);
-  if (
-    this.minStack.length === 0 ||
-    x <= this.minStack[this.minStack.length - 1]
-  )
-    this.minStack.push(x);
-};
-minStack.prototype.pop = function () {
-  if (this.stack.pop() === this.minStack[this.minStack.length - 1])
-    this.minStack.pop();
-};
-minStack.prototype.top = function () {
-  return this.stack[this.stack.length - 1];
-};
-minStack.prototype.getMin = function () {
-  return this.minStack[this.minStack.length - 1];
-};
