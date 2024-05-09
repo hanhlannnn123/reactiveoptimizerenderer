@@ -1,15 +1,27 @@
-function longestValidParentheses(s) {
-  if (s.length === 0) return 0;
-  let max = 0;
-  const dp = new Array(s.length).fill(0);
-  for (let i = 1; i < s.length; i++) {
-    if (s[i] === ")") {
-      if (s[i - 1] === "(") dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
-      else if (i - dp[i - 1] > 0 && s[i - dp[i - 1] - 1] === "(")
-        dp[i] =
-          dp[i - 1] + (i - dp[i - 1] >= 2 ? dp[i - dp[i - 1] - 2] : 0) + 2;
-      max = Math.max(max, dp[i]);
-    }
-  }
-  return max;
+function Trie() {
+  this.root = {};
 }
+Trie.prototype.insert = function (word) {
+  let node = this.root;
+  for (const char of word) {
+    if (!node[char]) node[char] = {};
+    node = node[char];
+  }
+  node.isEnd = true;
+};
+Trie.prototype.search = function (word) {
+  let node = this.root;
+  for (const char of word) {
+    if (!node[char]) return false;
+    node = node[char];
+  }
+  return node.isEnd === true;
+};
+Trie.prototype.startsWith = function (prefix) {
+  let node = this.root;
+  for (const char of prefix) {
+    if (!node[char]) return false;
+    node = node[char];
+  }
+  return true;
+};
