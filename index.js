@@ -1,27 +1,14 @@
-function Trie() {
-  this.root = {};
+function firstMissingPositive(nums) {
+  const n = nums.length;
+  for (let i = 0; i < n; i++) {
+    while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]) {
+      const temp = nums[nums[i] - 1];
+      nums[nums[i] - 1] = nums[i];
+      nums[i] = temp;
+    }
+  }
+  for (let i = 0; i < n; i++) {
+    if (nums[i] !== i + 1) return i + 1;
+  }
+  return n + 1;
 }
-Trie.prototype.insert = function (word) {
-  let node = this.root;
-  for (const char of word) {
-    if (!node[char]) node[char] = {};
-    node = node[char];
-  }
-  node.isEnd = true;
-};
-Trie.prototype.search = function (word) {
-  let node = this.root;
-  for (const char of word) {
-    if (!node[char]) return false;
-    node = node[char];
-  }
-  return node.isEnd === true;
-};
-Trie.prototype.startsWith = function (prefix) {
-  let node = this.root;
-  for (const char of prefix) {
-    if (!node[char]) return false;
-    node = node[char];
-  }
-  return true;
-};
