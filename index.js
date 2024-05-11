@@ -1,14 +1,15 @@
-function firstMissingPositive(nums) {
-  const n = nums.length;
-  for (let i = 0; i < n; i++) {
-    while (nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] !== nums[i]) {
-      const temp = nums[nums[i] - 1];
-      nums[nums[i] - 1] = nums[i];
-      nums[i] = temp;
-    }
+function removeNthFromEnd(head, n) {
+  const dummy = new ListNode(0);
+  dummy.next = head;
+  let first = dummy;
+  let second = dummy;
+  for (let i = 1; i <= n + 1; i++) {
+    first = first.next;
   }
-  for (let i = 0; i < n; i++) {
-    if (nums[i] !== i + 1) return i + 1;
+  while (first !== null) {
+    first = first.next;
+    second = second.next;
   }
-  return n + 1;
+  second.next = second.next.next;
+  return dummy.next;
 }
